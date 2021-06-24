@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <div class="text-center mt-5 mb-5" >
+    <h4>Registro</h4>
+  </div>
+
+  <mat-card class="card-form mx-auto" style="width: 26rem;">
+    <form [formGroup]="formSignUp" method="post" (ngSubmit)="signup()">
+      <div class="form-group d-flex flex-column">
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Ingresa tu nombre">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="controlNumber" placeholder="Ingresa tu numero de control">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="email" placeholder="Correo de acceso" required>
+          <mat-error *ngIf="email.touched && email.hasError('required')">Necesitas ingresar un nombre de usuario</mat-error>
+          <mat-error *ngIf="email.touched && email.hasError('email')">No es un correo valido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="password" placeholder="Ingrese su contraseña" (keyup.enter)="signup()" [type]="hide ? 'password' : 'text'" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="password.touched && password.hasError('required')">Necesitas ingresar tu contraseña</mat-error>
+          <mat-error *ngIf="password.touched && password.hasError('minlength')">Tu contraseña debe ser al menos de 6 caracteres</mat-error>
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" class="w-100" type="submit">
+        Ingresar
+      </button>
+
+    </form>
+    <mat-card-actions>
+      <button class="btn btn-sm btn-link" (click)="redirectToLogin()">Regresar al login</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

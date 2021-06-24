@@ -1,0 +1,137 @@
+<div class="focus-body">
+  <button mat-raised-button class="logout-btn" (click)="authService.logout()">Logout</button>
+  <mat-accordion>
+    <mat-expansion-panel  (opened)="togglePanel(true)"
+                          (closed)="togglePanel(false)"
+                          [expanded]="panelOpenState">
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+          <div *ngIf="!panelOpenState" class="timer-relax">
+            {{minutes}}:{{seconds}}
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="timer-body">
+        <div class="timer">
+          <p>{{minutes}}:{{seconds}}</p>
+        </div>
+        <div class="w-50 mt-4 d-flex justify-content-center">
+          <button mat-raised-button id="startTimerBtn" [color]="started ? 'warn' : 'primary'" class="mx-1" (click)="timerControls()">{{started ? 'Detener' : 'Iniciar'}}</button>
+        </div>
+        <div class="my-3" *ngIf="!started">
+          <form [formGroup]="formTimers" (ngSubmit)="setTime()" class="d-flex flex-column align-items-center">
+            <div class="form-group d-flex flex-column justify-content-center">
+              <mat-form-field>
+                <input matInput formControlName="subject" placeholder="Materia" (keyup)="timerChangeEvent($event)">
+                <mat-hint>Si registras un nombre se guardara el registro de tu timer</mat-hint>
+              </mat-form-field>
+
+              <div class="mt-3 mx-auto">
+                <mat-form-field appearance="outline" class="p-1" style="width: 5rem;">
+                  <mat-select formControlName="minutes">
+                    <mat-option value="00">00</mat-option>
+                    <mat-option value="05">05</mat-option>
+                    <mat-option value="10">10</mat-option>
+                    <mat-option value="15">15</mat-option>
+                    <mat-option value="20">20</mat-option>
+                    <mat-option value="25">25</mat-option>
+                    <mat-option value="30">30</mat-option>
+                    <mat-option value="35">35</mat-option>
+                    <mat-option value="40">40</mat-option>
+                    <mat-option value="45">45</mat-option>
+                    <mat-option value="50">50</mat-option>
+                    <mat-option value="55">55</mat-option>
+                    <mat-option value="59">59</mat-option>
+                  </mat-select>
+                </mat-form-field>
+        
+                <mat-form-field appearance="outline" class="p-1" style="width: 5rem;">
+                  <mat-select formControlName="seconds">
+                    <mat-option value="00">00</mat-option>
+                    <mat-option value="05">05</mat-option>
+                    <mat-option value="10">10</mat-option>
+                    <mat-option value="15">15</mat-option>
+                    <mat-option value="20">20</mat-option>
+                    <mat-option value="25">25</mat-option>
+                    <mat-option value="30">30</mat-option>
+                    <mat-option value="35">35</mat-option>
+                    <mat-option value="40">40</mat-option>
+                    <mat-option value="45">45</mat-option>
+                    <mat-option value="50">50</mat-option>
+                    <mat-option value="55">55</mat-option>
+                    <mat-option value="59">59</mat-option>        
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="d-flex flex-column mb-2" *ngIf="inputTouched">
+                <mat-radio-group formControlName="type" class="w-100 d-flex justify-content-between">
+                  <mat-radio-button [value]="0">Timer</mat-radio-button>
+                  <mat-radio-button [value]="1">Descanso</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+        
+            <button mat-raised-button type="submit" [color]="inputTouched && editTimer ? 'accent' : inputTouched ? 'primary' : 'basic'">
+              {{inputTouched && editTimer ? 'Editar' : inputTouched ? 'Guardar' : 'Registrar'}}
+            </button>
+      
+          </form>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <iframe width="20%" height="120" scrolling="no" frameborder="no" allow="autoplay" class="soundcloud-btn"
+    src="https://w.soundcloud.com/player/?url=https://soundcloud.com/uguru-music/ludovico-einaudi-experience&amp;{ ADD YOUR PARAMETERS HERE }">
+  </iframe>
+
+  <mat-accordion class="timer-list">
+    <mat-expansion-panel  (opened)="togglePanelList(true)"
+                          (closed)="togglePanelList(false)"
+                          [expanded]="panelOpenStateList">
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+          <span>Mis timers</span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="timer-list-body">
+        <p *ngFor="let timer of timers" style="cursor: pointer;">
+          <span [matMenuTriggerFor]="menu">{{timer.subject}} - {{timer.minutes}}:{{timer.seconds}}</span>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="useTimer(timer)">
+              <mat-icon color="primary">play_circle_filled</mat-icon>
+              <span>Usar</span>
+            </button>
+            <button mat-menu-item [disabled]="started" (click)="editTimer(timer)">
+              <mat-icon color="primary">edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item [disabled]="started" (click)="deleteTimer(timer._id, timer.type)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+        </p>
+      </div>
+      <span style="color: black;">Descansos</span>
+      <div class="timer-list-body">
+        <p *ngFor="let timer of breaks" style="cursor: pointer;">
+          <span [matMenuTriggerFor]="menu">{{timer.subject}} - {{timer.minutes}}:{{timer.seconds}}</span>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="useTimer(timer)">
+              <mat-icon color="primary">play_circle_filled</mat-icon>
+              <span>Usar</span>
+            </button>
+            <button mat-menu-item [disabled]="started" (click)="editTimer(timer)">
+              <mat-icon color="primary">edit</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item [disabled]="started" (click)="deleteTimer(timer._id, timer.type)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+        </p>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

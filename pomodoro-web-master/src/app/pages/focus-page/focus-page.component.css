@@ -1,0 +1,75 @@
+.focus-body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/assets/img/background-2.jpg');
+  background-repeat: no-repeat, repeat;
+  background-color: #cccccc;
+}
+
+.timer-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+}
+
+/* .timer-body:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+} */
+
+.timer {
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* font-family: 'Odibee Sans', cursive; */
+  font-family: 'Rubik', sans-serif;
+  font-size: 4rem;
+}
+
+.timer-relax {
+  height: 2.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* font-family: 'Odibee Sans', cursive; */
+  font-family: 'Rubik', sans-serif;
+  font-size: 2rem;
+}
+
+.timer > p {
+  margin: 0;
+}
+
+.logout-btn {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+} 
+
+.soundcloud-btn {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+} 
+
+.timer-list {
+  position: absolute;
+  top: 250px;
+  right: 10px;
+}
+
+.timer-list-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 220px;
+  color: gray;
+}

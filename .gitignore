@@ -1,0 +1,6 @@
+.DS_Store
+node_modules
+build/
+.env*
+pomodoro-api-master/.eslintcache
+pomodoro-web-master/.eslintcache
